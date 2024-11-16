@@ -1,0 +1,184 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Hangman {
+private static int count; // count of how many guesses
+private static int current; // the current number of guesses left
+private static String level; // the difficulty level
+private static String[] words = {"programming", "elephant", "pineapple", "adventure", "harmony", "mysterious", "marvelous", "twilight", "principle"}; // available words to guess	
+private static String word; // the currently selected word
+private static char[] currentWord;
+private static boolean won;
+	public static void main(String[] args) {
+		won = false;
+		current = -1;
+		Scanner sc = new Scanner(System.in); // the difficulty setting and setting up the rest
+		System.out.println("Please pick a difficulty level: ");
+		System.out.println("EASY(E) - HARD(H)");
+		level = sc.next();
+		setLevel();
+		drawHangman();
+		System.out.println("Enter your guess");
+		word = words[(int)(Math.random()*words.length)];
+		currentWord = new char[word.length()];
+		for(int z = 0; z < currentWord.length; z++) // initializes the current word
+		{
+			currentWord[z] = '_';
+		}
+		hangman(sc.next().charAt(0));
+		current++;
+		while(current < count && current != -1 && !won) // playing the game
+		{
+			System.out.println("Guess Again!");
+			char guess = sc.next().charAt(0);
+			hangman(guess);
+		}
+		if(current == count) // if player loses
+		{
+			System.out.println("Sorry, you're out of guesses! The word was " + word);
+		}
+	}
+	public static void setLevel() 
+	{
+		if(level.equals("E"))
+			count = 4;
+		if(level.equals("H"))
+			count = 3;
+	}	
+
+	public static void hangman(char g)
+	{
+		ArrayList<Integer> index = new ArrayList<Integer>(); // counts how many times the letter is in there
+		for(int x = 0; x < word.length(); x++)
+		{
+			if(g == word.charAt(x))
+			{
+				index.add(x);
+			}
+		}
+		if(index.isEmpty()) // wrong guess
+		{
+			System.out.println("Sorry, that's incorrect. Try again!");
+			current++;
+		}
+		else
+		{
+			for(int x: index)
+			{
+				currentWord[x] = g;
+			}
+		}
+		if(String.valueOf(currentWord).equals(word))
+		{
+			System.out.println("You win!");
+			won = true;
+		}
+		System.out.println(currentWord);
+		drawHangman();
+		
+	}
+	public static void drawHangman()
+	{
+		if(level.equals("E"))
+		{
+			if(current == 0 || current == -1)
+				{
+					System.out.println("__________");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+				}
+			if(current == 1)
+				{
+					System.out.println("__________");
+					System.out.println("|     0   ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+				}
+			if(current == 2)
+			{
+					System.out.println("__________");
+					System.out.println("|     0   ");
+					System.out.println("|     |   ");
+					System.out.println("|     |   ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+			}
+			if(current == 3)
+			{
+					System.out.println("__________");
+					System.out.println("|     0   ");
+					System.out.println("|    /|\\ ");
+					System.out.println("|     |   ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+			}
+			if(current == 4)
+			{
+				System.out.println("__________");
+				System.out.println("|     0   ");
+				System.out.println("|    /|\\  ");
+				System.out.println("|     |   ");
+				System.out.println("|    / \\ ");
+				System.out.println("|   /   \\ ");
+				System.out.println("------    ");
+			}
+		}
+		if(level.equals("H"))
+		{
+			if(current == 0 || current == -1)
+			{
+					System.out.println("__________");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+			}
+			if(current == 1)
+			{
+					System.out.println("__________");
+					System.out.println("|     0   ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+			}
+			if(current == 2)
+			{
+					System.out.println("__________");
+					System.out.println("|     0   ");
+					System.out.println("|    /|\\  ");
+					System.out.println("|     |   ");
+					System.out.println("|         ");
+					System.out.println("|         ");
+					System.out.println("------    ");
+					
+			}
+			if(current == 3)
+			{
+					System.out.println("__________");
+					System.out.println("|     0   ");
+					System.out.println("|    /|\\  ");
+					System.out.println("|     |   ");
+					System.out.println("|    / \\  ");
+					System.out.println("|   /   \\ ");
+					System.out.println("------    ");
+			}
+			
+		}
+
+	}
+	
+
+}
